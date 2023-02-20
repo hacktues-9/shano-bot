@@ -27,10 +27,6 @@ P.S много лудо, че сте доброволци!
 """
     )
 
-intents=discord.Intents.all()
-client = commands.Bot(command_prefix='!',intents=intents)
-SERVER_ID = os.getenv("SERVER")
-
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
@@ -108,12 +104,17 @@ async def on_message(message):
         await dm_about_roles(message.author)
     elif message.content.startswith("!serverid"):
         await message.channel.send(message.channel.guild.id)
+   
 
-try:
-    client.run(os.getenv("TOKEN"))
-except discord.HTTPException as e:
-    if e.status == 429:
-        print("The Discord servers denied the connection for making too many requests")
-        print("Get help from https://stackoverflow.com/questions/66724687/in-discord-py-how-to-solve-the-error-for-toomanyrequests")
-    else:
-        raise e
+if __name__ == "__main__":
+    intents=discord.Intents.all()
+    client = commands.Bot(command_prefix='!',intents=intents)
+    SERVER_ID = os.getenv("SERVER")
+    try:
+        client.run(os.getenv("TOKEN"))
+    except discord.HTTPException as e:
+        if e.status == 429:
+            print("The Discord servers denied the connection for making too many requests")
+            print("Get help from https://stackoverflow.com/questions/66724687/in-discord-py-how-to-solve-the-error-for-toomanyrequests")
+        else:
+            raise e
