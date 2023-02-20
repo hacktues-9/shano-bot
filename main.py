@@ -6,6 +6,10 @@ import re
 from discord.ext import commands
 import os
 
+intents=discord.Intents.all()
+client = commands.Bot(command_prefix='!',intents=intents)
+SERVER_ID = os.getenv("SERVER")
+
 async def dm_about_roles(member):
     print(f"DMing {member.name}...")
 
@@ -104,12 +108,9 @@ async def on_message(message):
         await dm_about_roles(message.author)
     elif message.content.startswith("!serverid"):
         await message.channel.send(message.channel.guild.id)
-   
+
 
 if __name__ == "__main__":
-    intents=discord.Intents.all()
-    client = commands.Bot(command_prefix='!',intents=intents)
-    SERVER_ID = os.getenv("SERVER")
     try:
         client.run(os.getenv("TOKEN"))
     except discord.HTTPException as e:
